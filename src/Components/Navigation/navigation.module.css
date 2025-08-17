@@ -1,0 +1,110 @@
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  padding: 14px 28px;
+  background: linear-gradient(180deg, #6a11cb, #2575fc);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  position: relative;
+}
+.activeLink {
+  color: white;
+  border-radius: 8px;
+  padding: 4px 8px;
+  box-shadow: 
+    0 0 8px #8841f1,
+    0 0 16px #8841f1,
+    0 0 24px #8841f1;
+  transition: box-shadow 0.3s ease;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.appName {
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.links {
+  display: flex;
+  gap: 28px; 
+  align-items: center;
+}
+
+.burger {
+  display: none;
+  font-size: 28px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.burger:hover {
+  transform: rotate(90deg);
+}
+
+.navLink {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 10px;
+  transition: all 0.3s;
+}
+
+.navLink:hover {
+  background-color: rgba(255,255,255,0.2);
+  transform: scale(1.05);
+  color: #ffe;
+}
+@media (max-width: 880px) {
+  .burger {
+    display: block;
+  }
+
+  .links {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: linear-gradient(180deg, #6a11cb, #2575fc); 
+    flex-direction: column;
+    gap: 0;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease-in-out;
+    border-radius: 0 0 12px 12px;
+  }
+
+  .links.active {
+    max-height: 500px;
+  }
+
+  .navLink {
+    padding: 14px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .navLink:last-child {
+    border-bottom: none;
+  }
+
+  .nav {
+    justify-content: space-between;
+    padding: 12px 20px;
+  }
+
+  .appName {
+    font-size: 20px;
+  }
+}
+

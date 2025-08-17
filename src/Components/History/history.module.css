@@ -1,0 +1,91 @@
+.history {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-height: calc(100vh - 100px); 
+  overflow-y: auto; 
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  word-break: break-word; 
+  background: #fff;
+  border: 2px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+
+.text {
+  margin-top: 12px;
+  font-size: 14px;
+  word-break: break-word;
+  text-align: center;
+  color: #333;
+}
+
+.empty {
+  text-align: center;
+  font-size: 16px;
+  color: #888;
+  margin-top: 40px;
+}
+.history {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.card span,
+.card a {
+  margin-top: 8px;        
+  display: inline-block;  
+  font-size: 14px;
+  text-align: center;
+  color: #333333;         
+  word-break: break-word;
+}
+
+.card a {
+  color: #6c63ff;         
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.card a:hover {
+  text-decoration: underline;
+}
+
+
+.clearButton {
+  align-self: flex-end;
+  padding: 8px 16px;
+  background-color: #e55374;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.clearButton:hover {
+  background-color: #e55374;
+  transform: scale(1.05);
+}
+
+.empty {
+  text-align: center;
+  color: #888;
+  font-size: 16px;
+}
