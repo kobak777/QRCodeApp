@@ -33,27 +33,31 @@ export const QRCodeGenerator = () => {
     const ctx = canvas.getContext("2d");
     const img = new Image();
 
-    const svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
-    const url = URL.createObjectURL(svgBlob);
-
     img.onload = () => {
       canvas.width = img.width;
       canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
-      URL.revokeObjectURL(url); 
 
       canvas.toBlob((blob) => {
-        const pngUrl = URL.createObjectURL(blob);
+        if (!blob) return;
+        const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
-        link.href = pngUrl;
+        link.href = url;
         link.download = "qrcode.png";
-        link.click();
-        URL.revokeObjectURL(pngUrl);
+ 
+        if (navigator.userAgent.match(/iPhone|iPad|iPod/)) {
+          window.open(url, "_blank");
+        } else {
+          link.click();
+        }
+
+        setTimeout(() => URL.revokeObjectURL(url), 100);
       });
     };
 
-    img.src = url;
+    img.src = "data:image/svg+xml;base64," + btoa(svgData);
   };
+
 
   return (
     <div className={s.qrGenerator}>
