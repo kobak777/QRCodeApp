@@ -24,6 +24,8 @@ export const QRCodeGenerator = () => {
     setResult("");
   };
 
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
   const downloadQRCode = () => {
     const svg = document.querySelector("svg");
     if (!svg) return;
@@ -38,26 +40,27 @@ export const QRCodeGenerator = () => {
       canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
 
-      canvas.toBlob((blob) => {
-        if (!blob) return;
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = "qrcode.png";
- 
-        if (navigator.userAgent.match(/iPhone|iPad|iPod/)) {
+      if (isMobile) {
+        canvas.toBlob((blob) => {
+          if (!blob) return;
+          const url = URL.createObjectURL(blob);
           window.open(url, "_blank");
-        } else {
-          link.click();
-        }
-
-        setTimeout(() => URL.revokeObjectURL(url), 100);
-      });
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+        });
+      } else {
+        canvas.toBlob((blob) => {
+          if (!blob) return;
+          const downloadLink = document.createElement("a");
+          downloadLink.href = URL.createObjectURL(blob);
+          downloadLink.download = "qrcode.png";
+          downloadLink.click();
+          setTimeout(() => URL.revokeObjectURL(downloadLink.href), 1000);
+        });
+      }
     };
 
     img.src = "data:image/svg+xml;base64," + btoa(svgData);
   };
-
 
   return (
     <div className={s.qrGenerator}>
