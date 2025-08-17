@@ -4,7 +4,7 @@ import { Layout } from './Layout';
 import "./style.css"
 
 createRoot(document.getElementById('root')).render(
-  <BrowserRouter>
-    <Layout/>
+  <BrowserRouter basename="/QRCodeApp">
+    <Layout />
   </BrowserRouter>
 )
