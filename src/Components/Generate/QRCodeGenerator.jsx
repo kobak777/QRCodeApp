@@ -41,26 +41,29 @@ export const QRCodeGenerator = () => {
       ctx.drawImage(img, 0, 0);
 
       if (isMobile) {
-        canvas.toBlob((blob) => {
-          if (!blob) return;
-          const url = URL.createObjectURL(blob);
-          window.open(url, "_blank");
-          setTimeout(() => URL.revokeObjectURL(url), 1000);
-        });
+        const pngDataUrl = canvas.toDataURL("image/png");
+        const newTab = window.open();
+        if (newTab) {
+          newTab.document.body.style.margin = "0";
+          const image = newTab.document.createElement("img");
+          image.src = pngDataUrl;
+          image.style.width = "100%";
+          image.style.height = "100%";
+          image.style.objectFit = "contain";
+          newTab.document.body.appendChild(image);
+        }
       } else {
-        canvas.toBlob((blob) => {
-          if (!blob) return;
-          const downloadLink = document.createElement("a");
-          downloadLink.href = URL.createObjectURL(blob);
-          downloadLink.download = "qrcode.png";
-          downloadLink.click();
-          setTimeout(() => URL.revokeObjectURL(downloadLink.href), 1000);
-        });
+        const pngFile = canvas.toDataURL("image/png");
+        const downloadLink = document.createElement("a");
+        downloadLink.href = pngFile;
+        downloadLink.download = "qrcode.png";
+        downloadLink.click();
       }
     };
 
     img.src = "data:image/svg+xml;base64," + btoa(svgData);
   };
+
 
   return (
     <div className={s.qrGenerator}>
