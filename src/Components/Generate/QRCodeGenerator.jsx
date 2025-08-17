@@ -7,10 +7,11 @@ export const QRCodeGenerator = () => {
   const [value, setValue] = useState("");
   const [result, setResult] = useState("");
 
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
   const onClickHandler = () => {
-     if (!value.trim()) {
-      setValue("");  
-      alert("Пожалуйста, введите данные для генерации QR кода!"); 
+    if (!value.trim()) {
+      alert("Пожалуйста, введите данные для генерации QR кода!");
       return;
     }
     const prevData = JSON.parse(localStorage.getItem(GENERATE_DATA) || "[]");
@@ -24,9 +25,7 @@ export const QRCodeGenerator = () => {
     setResult("");
   };
 
-  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-  const downloadQRCode = () => {
+  const handleQRCodeAction = () => {
     const svg = document.querySelector("svg");
     if (!svg) return;
 
@@ -40,8 +39,9 @@ export const QRCodeGenerator = () => {
       canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
 
+      const pngDataUrl = canvas.toDataURL("image/png");
+
       if (isMobile) {
-        const pngDataUrl = canvas.toDataURL("image/png");
         const newTab = window.open();
         if (newTab) {
           newTab.document.body.style.margin = "0";
@@ -53,9 +53,8 @@ export const QRCodeGenerator = () => {
           newTab.document.body.appendChild(image);
         }
       } else {
-        const pngFile = canvas.toDataURL("image/png");
         const downloadLink = document.createElement("a");
-        downloadLink.href = pngFile;
+        downloadLink.href = pngDataUrl;
         downloadLink.download = "qrcode.png";
         downloadLink.click();
       }
@@ -63,7 +62,6 @@ export const QRCodeGenerator = () => {
 
     img.src = "data:image/svg+xml;base64," + btoa(svgData);
   };
-
 
   return (
     <div className={s.qrGenerator}>
@@ -81,8 +79,8 @@ export const QRCodeGenerator = () => {
       {result !== "" && (
         <div className={s.qrCodeWrapper}>
           <QRCodeSVG value={result} size={200} />
-          <button className={s.downloadButton} onClick={downloadQRCode}>
-            Скачать PNG
+          <button className={s.downloadButton} onClick={handleQRCodeAction}>
+            {isMobile ? "Открыть изображение" : "Скачать PNG"}
           </button>
         </div>
       )}
